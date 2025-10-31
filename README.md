@@ -4,13 +4,13 @@ A Python implementation of the **Birth-Death Skyline (BDSKY)** model tree prior 
 
 ## Features
 
-- ✅ **Full Theorem 1 Implementation**: Exact likelihood computation with backward recursion for B_i coefficients
-- ✅ **Piecewise-Constant Rates**: Support for time-varying birth (λ), death (μ), and sampling (ψ) rates
-- ✅ **Dual Sampling Modes**: Continuous-time serial sampling and boundary pulse sampling (ρ)
-- ✅ **Epidemiological Parameterization**: Convert (R, δ, s) to (λ, μ, ψ) using standard epidemiological relationships
-- ✅ **Numerically Stable**: Log-space arithmetic with epsilon guards to prevent underflow/overflow
-- ✅ **Efficient**: O(m + N) complexity suitable for MCMC integration
-- ✅ **Well-Tested**: Comprehensive unit tests covering edge cases and monotonicity properties
+- **Full Theorem 1 Implementation**: Exact likelihood computation with backward recursion for B_i coefficients
+- **Piecewise-Constant Rates**: Support for time-varying birth (λ), death (μ), and sampling (ψ) rates
+- **Dual Sampling Modes**: Continuous-time serial sampling and boundary pulse sampling (ρ)
+- **Epidemiological Parameterization**: Convert (R, δ, s) to (λ, μ, ψ) using standard epidemiological relationships
+- **Numerically Stable**: Log-space arithmetic with epsilon guards to prevent underflow/overflow
+- **Efficient**: O(m + N) complexity suitable for MCMC integration
+- **Well-Tested**: Comprehensive unit tests covering edge cases and monotonicity properties
 
 ## Installation
 
@@ -168,4 +168,3 @@ This is a research implementation of the BDSKY model. For bug reports or feature
 ---
 
 **Note**: This implementation is designed for integration into Bayesian phylogenetic inference frameworks (e.g., BEAST2) as a tree prior component.
-

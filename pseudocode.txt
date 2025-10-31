@@ -1,0 +1,38 @@
+
+INPUT:
+  Grid t[0..m], with 0 = t0 < t1 < ... < tm
+  Interval parameters for i = 0..m-1 (i corresponds to [t[i], t[i+1])):
+    lambda[i] > 0
+    mu[i]    >= 0
+    psi[i]   >= 0
+    rho[i] in [0,1] at boundary t[i+1]
+
+  Tree events:
+    x[1..N+n-1]   ascending internal-node times
+    y[1..n]       ascending sequential sampling times (not at boundaries)
+    N_b[0..m-1]   count of tips sampled exactly at boundaries t[i+1]
+    n_b[0..m-1]   count of degree-2 vertices at boundaries t[i+1] (n_b[m-1] = 0)
+
+HELPERS:
+  A[i] = sqrt((lambda[i] - mu[i] - psi[i])^2 + 4*lambda[i]*psi[i])
+
+  Backward recursion for i = m-1..0:
+    p_next = 1  # p_{m+1}(t_m)
+    B[i] = ( (1 - 2*(1 - rho[i]) * p_next) * lambda[i] + mu[i] + psi[i] ) / A[i]
+    p_next = p_i(t[i])  # using function below
+
+  For t in [t[i], t[i+1)):
+    expo = exp(A[i]*(t[i+1] - t))
+    p_i(t) = ((lambda[i] + mu[i] + psi[i] - A[i]) * (expo*(1 + B[i]) - (1 - B[i])))
+             / (2*lambda[i] * (expo*(1 + B[i]) + (1 - B[i])))
+    q_i(t) = 4*exp(-A[i]*(t - t[i+1])) / (exp(-A[i]*(t - t[i+1]))*(1 + B[i]) + (1 - B[i]))^2
+
+  Let p1(0) = p_0(t0), q1(0) = q_0(t0); l(t) := interval index of t.
+
+LIKELIHOOD (log-space):
+  log f = log q1(0) - log(1 - p1(0))
+  For each x_j: i = l(x_j); log f += log lambda[i] + log q_i(x_j)
+  For each y_k: i = l(y_k); log f += log psi[i] - log q_i(y_k)
+  For each boundary i: log f += N_b[i] * log rho[i] + n_b[i] * log((1 - rho[i]) * q_{i+1}(t[i+1]))
+
+RETURN log f
